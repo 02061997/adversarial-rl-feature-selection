@@ -1,0 +1,4 @@
+{
+  "environment": "Gymnasium CartPole-v1",
+  "samples": 6000
+}
