@@ -1,4 +1,28 @@
 {
-  "environment": "Gymnasium CartPole-v1",
-  "samples": 6000
+  "environments": {
+    "bipedal_walker": {
+      "dimensions": 24,
+      "gymnasium_name": "BipedalWalker-v3",
+      "imposter_counts": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "paper_training_protocol": "ARS, 1,000 iterations"
+    },
+    "lunar_lander": {
+      "dimensions": 8,
+      "gymnasium_name": "LunarLander-v3",
+      "imposter_counts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "paper_training_protocol": "PPO, 200,000 steps"
+    }
+  },
+  "original_training_trajectories_included": false,
+  "source": "deterministic trajectory fixtures"
 }

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from .artifacts import environment, output_dir, save
-from .core import evaluate
+from .core import ENVIRONMENTS, PUBLISHED_RESULTS, evaluate
 
 
 def main():
@@ -12,26 +12,41 @@ def main():
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
     out = output_dir(args.smoke)
-    records = evaluate(
-        samples=800 if args.smoke else 6000, seeds=(7,) if args.smoke else (1, 7, 19)
-    )
+    records, predictions = evaluate(samples=900 if args.smoke else 3600)
     frame = pd.DataFrame(records)
-    frame.to_parquet(out / "predictions.parquet", index=False)
-    summary = frame.groupby(["method", "scale"]).accuracy.agg(["mean", "std"]).reset_index()
+    predictions.to_parquet(out / "predictions.parquet", index=False)
+    summary = (
+        frame.groupby(["environment", "model", "metric"]).accuracy.mean().reset_index()
+    )
     summary.to_csv(out / "summary.csv", index=False)
-    pivot = summary.pivot(index="scale", columns="method", values="mean")
-    ax = pivot.plot(marker="o", figsize=(8, 4), ylabel="Action accuracy")
+    pivot = summary.pivot_table(index=["environment", "model"], columns="metric", values="accuracy")
+    ax = pivot.plot.bar(figsize=(10, 5), ylim=(0, 1), ylabel="Detection accuracy")
     ax.figure.tight_layout()
-    ax.figure.savefig(out / "robustness.png", dpi=180)
+    ax.figure.savefig(out / "imposter_detection.png", dpi=180)
     plt.close(ax.figure)
     save(out / "metrics.json", summary.to_dict(orient="records"))
-    save(out / "statistical_tests.json", {"seeds": sorted(frame.seed.unique().tolist())})
+    save(
+        out / "statistical_tests.json",
+        {"published_results": PUBLISHED_RESULTS, "published_results_reproduced": False},
+    )
     save(out / "environment.json", environment())
     save(
         out / "data_manifest.json",
-        {"environment": "Gymnasium CartPole-v1", "samples": 800 if args.smoke else 6000},
+        {
+            "source": "deterministic trajectory fixtures",
+            "environments": {
+                name: {
+                    "gymnasium_name": spec.name,
+                    "dimensions": spec.dimensions,
+                    "imposter_counts": spec.imposter_counts,
+                    "paper_training_protocol": spec.training_protocol,
+                }
+                for name, spec in ENVIRONMENTS.items()
+            },
+            "original_training_trajectories_included": False,
+        },
     )
-    save(out / "config.yaml", {"noise_scales": [0.1, 0.25, 0.5]})
+    save(out / "config.yaml", {"noise": ["gaussian", "uniform"], "classifiers": 4})
     (out / "run.log").write_text("completed\n")
     print(out)
 

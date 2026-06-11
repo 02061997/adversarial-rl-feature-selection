@@ -1,7 +1,7 @@
 [project]
       name = "adversarial-rl-feature-selection"
       version = "1.0.0"
-      description = "Reference reconstruction of entropy-based feature selection under adversarial observation noise."
+      description = "Paper-faithful imposter-feature detection using entropy, joint entropy, and KL divergence."
       requires-python = ">=3.12,<3.13"
       dependencies = [
         "gymnasium[classic-control]>=1.0",

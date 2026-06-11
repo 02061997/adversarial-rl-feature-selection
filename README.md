@@ -1,11 +1,17 @@
-# Adversarial RL Feature Selection
+# Imposter Injection Feature Detection
 
-Reference reconstruction of feature-selection ideas described in
-*Imposter Injection: Learning to Select Features in Reinforcement Learning*.
-This is not the original paper code. It provides a reproducible CartPole
-observation-noise benchmark comparing entropy, KL divergence, mutual
-information, and all-feature baselines.
+Paper-faithful public reconstruction of *Imposter Injection: Learning to Select
+Features in Reinforcement Learning* (KSE 2024).
+
+The repository implements appended Gaussian/uniform imposters, Lunar Lander
+and Bipedal Walker dimensional profiles, entropy/joint-entropy/KL feature
+descriptors, the paper's return-deviation gates, and Naive/RF/KNN/SVM
+detectors. Original trained PPO/ARS policies and trajectories were unavailable,
+so local experiments use deterministic trajectory fixtures.
 
 ```bash
-uv sync && make test && make reproduce-results
+uv sync
+make test
+make reproduce-smoke
+make reproduce-results
 ```

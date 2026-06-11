@@ -1,7 +1,49 @@
 {
-  "seeds": [
-    1,
-    7,
-    19
-  ]
+  "published_results": {
+    "bipedal_walker": {
+      "knn": {
+        "entropy": 0.9555,
+        "joint_entropy": 0.96,
+        "kl": 0.9555
+      },
+      "naive": {
+        "entropy": 0.95,
+        "joint_entropy": 0.8856,
+        "kl": 0.8345
+      },
+      "random_forest": {
+        "entropy": 0.9333,
+        "joint_entropy": 0.925,
+        "kl": 0.9078
+      },
+      "svm": {
+        "entropy": 0.9777,
+        "joint_entropy": 0.9577,
+        "kl": 0.9577
+      }
+    },
+    "lunar_lander": {
+      "knn": {
+        "entropy": 0.9411,
+        "joint_entropy": 0.9135,
+        "kl": 0.7654
+      },
+      "naive": {
+        "entropy": 0.94,
+        "joint_entropy": 0.8054,
+        "kl": 0.6032
+      },
+      "random_forest": {
+        "entropy": 0.9705,
+        "joint_entropy": 0.9506,
+        "kl": 0.7962
+      },
+      "svm": {
+        "entropy": 0.9111,
+        "joint_entropy": 0.7592,
+        "kl": 0.6913
+      }
+    }
+  },
+  "published_results_reproduced": false
 }
