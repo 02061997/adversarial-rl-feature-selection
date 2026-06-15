@@ -9,6 +9,11 @@ descriptors, the paper's return-deviation gates, and Naive/RF/KNN/SVM
 detectors. Original trained PPO/ARS policies and trajectories were unavailable,
 so local experiments use deterministic trajectory fixtures.
 
+Full runs also emit `benchmark_diagnostics.csv` and `BENCHMARK_NOTE.md`, which
+compare the local fixture's best model/metric ordering with the published best
+rows. This makes the reconstruction gap inspectable instead of implying that
+synthetic rankings are paper results.
+
 ```bash
 uv sync
 make test

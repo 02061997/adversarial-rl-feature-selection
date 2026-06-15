@@ -1,4 +1,28 @@
 {
+  "benchmark_diagnostics": [
+    {
+      "environment": "bipedal_walker",
+      "local_accuracy_range": 0.028019831730769162,
+      "local_best_accuracy": 0.9428880494505494,
+      "local_best_metric": "kl",
+      "local_best_model": "knn",
+      "published_best_accuracy": 0.9777,
+      "published_best_metric": "entropy",
+      "published_best_model": "svm",
+      "ranking_agrees_with_published": false
+    },
+    {
+      "environment": "lunar_lander",
+      "local_accuracy_range": 0.11363636363636365,
+      "local_best_accuracy": 0.983096590909091,
+      "local_best_metric": "kl",
+      "local_best_model": "knn",
+      "published_best_accuracy": 0.9705,
+      "published_best_metric": "entropy",
+      "published_best_model": "random_forest",
+      "ranking_agrees_with_published": false
+    }
+  ],
   "local_reference_results": [
     {
       "accuracy": 0.9284649725274725,

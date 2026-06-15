@@ -19,3 +19,7 @@ less differentiated. This is a useful negative result showing that metric
 ranking depends on the genuine trajectory distribution. Exact PPO 200,000-step
 and ARS 1,000-iteration policy experiments remain `NOT_RUN` and are recorded
 explicitly in `reports/latest/statistical_tests.json`.
+
+The latest run also writes `reports/latest/benchmark_diagnostics.csv` and
+`reports/latest/BENCHMARK_NOTE.md`, which compare local synthetic rankings
+against the published best rows and mark any ordering mismatch directly.

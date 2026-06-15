@@ -2,8 +2,10 @@ import numpy as np
 
 from robustfeatures.core import (
     ENVIRONMENTS,
+    benchmark_diagnostics,
     deviation_gate,
     entropy,
+    evaluate,
     feature_descriptors,
     inject_imposters,
     joint_entropy,
@@ -35,3 +37,12 @@ def test_algorithm_feature_matrix_and_gate():
     )
     assert deviation_gate(301, ENVIRONMENTS["lunar_lander"])
     assert not deviation_gate(150, ENVIRONMENTS["lunar_lander"])
+
+
+def test_benchmark_diagnostics_expose_reconstruction_gap():
+    records, _predictions = evaluate(samples=360, seed=7)
+    diagnostics = benchmark_diagnostics(records)
+    assert set(diagnostics["environment"]) == set(ENVIRONMENTS)
+    assert "ranking_agrees_with_published" in diagnostics
+    assert diagnostics["local_accuracy_range"].gt(0).all()
+    assert diagnostics["published_best_accuracy"].between(0, 1).all()

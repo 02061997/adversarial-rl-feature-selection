@@ -187,3 +187,45 @@ def evaluate(samples: int = 3600, seed: int = 7) -> tuple[list[dict], pd.DataFra
                             )
                         )
     return records, pd.DataFrame(prediction_rows)
+
+
+def benchmark_diagnostics(records: list[dict]) -> pd.DataFrame:
+    """Compare local fixture ordering against the published best rows."""
+    frame = pd.DataFrame(records)
+    summary = (
+        frame.groupby(["environment", "model", "metric"], as_index=False)
+        .accuracy.mean()
+        .sort_values(["environment", "accuracy"], ascending=[True, False])
+    )
+    rows = []
+    for environment, env_summary in summary.groupby("environment", sort=True):
+        local_best = env_summary.iloc[0]
+        published_rows = [
+            {
+                "model": model,
+                "metric": metric,
+                "accuracy": accuracy,
+            }
+            for model, metrics in PUBLISHED_RESULTS[environment].items()
+            for metric, accuracy in metrics.items()
+        ]
+        published_best = max(published_rows, key=lambda row: row["accuracy"])
+        rows.append(
+            {
+                "environment": environment,
+                "local_best_model": local_best["model"],
+                "local_best_metric": local_best["metric"],
+                "local_best_accuracy": float(local_best["accuracy"]),
+                "published_best_model": published_best["model"],
+                "published_best_metric": published_best["metric"],
+                "published_best_accuracy": float(published_best["accuracy"]),
+                "ranking_agrees_with_published": bool(
+                    local_best["model"] == published_best["model"]
+                    and local_best["metric"] == published_best["metric"]
+                ),
+                "local_accuracy_range": float(
+                    env_summary["accuracy"].max() - env_summary["accuracy"].min()
+                ),
+            }
+        )
+    return pd.DataFrame(rows)

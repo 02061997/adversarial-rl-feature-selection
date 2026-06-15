@@ -4,7 +4,21 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from .artifacts import environment, output_dir, publish_latest, save
-from .core import ENVIRONMENTS, PUBLISHED_RESULTS, evaluate
+from .core import ENVIRONMENTS, PUBLISHED_RESULTS, benchmark_diagnostics, evaluate
+
+
+def diagnostics_markdown(diagnostics: pd.DataFrame) -> str:
+    rows = [
+        "| Environment | Local best | Published best | Agreement | Local accuracy range |",
+        "|---|---|---|---:|---:|",
+    ]
+    for _, row in diagnostics.iterrows():
+        rows.append(
+            "| {environment} | {local_best_model} + {local_best_metric} ({local_best_accuracy:.3f}) "
+            "| {published_best_model} + {published_best_metric} ({published_best_accuracy:.3f}) "
+            "| {ranking_agrees_with_published} | {local_accuracy_range:.3f} |".format(**row)
+        )
+    return "\n".join(rows)
 
 
 def main():
@@ -18,7 +32,9 @@ def main():
     summary = (
         frame.groupby(["environment", "model", "metric"]).accuracy.mean().reset_index()
     )
+    diagnostics = benchmark_diagnostics(records)
     summary.to_csv(out / "summary.csv", index=False)
+    diagnostics.to_csv(out / "benchmark_diagnostics.csv", index=False)
     pivot = summary.pivot_table(index=["environment", "model"], columns="metric", values="accuracy")
     ax = pivot.plot.bar(figsize=(10, 5), ylim=(0, 1), ylabel="Detection accuracy")
     ax.figure.tight_layout()
@@ -31,6 +47,7 @@ def main():
             "published_results": PUBLISHED_RESULTS,
             "published_results_reproduced": False,
             "local_reference_results": summary.to_dict(orient="records"),
+            "benchmark_diagnostics": diagnostics.to_dict(orient="records"),
             "not_run": [
                 {
                     "experiment": "PPO Lunar Lander 200000-step trajectory extraction",
@@ -61,6 +78,14 @@ def main():
         },
     )
     save(out / "config.yaml", {"noise": ["gaussian", "uniform"], "classifiers": 4})
+    (out / "BENCHMARK_NOTE.md").write_text(
+        "# Public Benchmark Diagnostics\n\n"
+        "This deterministic fixture is a reconstruction stress test, not the original PPO/ARS "
+        "experiment. `ranking_agrees_with_published=false` means the synthetic trajectory "
+        "distribution does not reproduce the published best model/metric ordering.\n\n"
+        + diagnostics_markdown(diagnostics)
+        + "\n"
+    )
     (out / "run.log").write_text("completed\n")
     if not args.smoke:
         publish_latest(out)
