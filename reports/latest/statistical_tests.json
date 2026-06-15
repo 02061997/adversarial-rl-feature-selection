@@ -1,4 +1,160 @@
 {
+  "local_reference_results": [
+    {
+      "accuracy": 0.9284649725274725,
+      "environment": "bipedal_walker",
+      "metric": "entropy",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.9291625171703297,
+      "environment": "bipedal_walker",
+      "metric": "joint_entropy",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.9428880494505494,
+      "environment": "bipedal_walker",
+      "metric": "kl",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.9312774725274725,
+      "environment": "bipedal_walker",
+      "metric": "entropy",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.9393634100274726,
+      "environment": "bipedal_walker",
+      "metric": "joint_entropy",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.9303009100274725,
+      "environment": "bipedal_walker",
+      "metric": "kl",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.9148682177197802,
+      "environment": "bipedal_walker",
+      "metric": "entropy",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9335946085164835,
+      "environment": "bipedal_walker",
+      "metric": "joint_entropy",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9387083619505494,
+      "environment": "bipedal_walker",
+      "metric": "kl",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9362774725274725,
+      "environment": "bipedal_walker",
+      "metric": "entropy",
+      "model": "svm"
+    },
+    {
+      "accuracy": 0.9362774725274725,
+      "environment": "bipedal_walker",
+      "metric": "joint_entropy",
+      "model": "svm"
+    },
+    {
+      "accuracy": 0.9362774725274725,
+      "environment": "bipedal_walker",
+      "metric": "kl",
+      "model": "svm"
+    },
+    {
+      "accuracy": 0.8694602272727273,
+      "environment": "lunar_lander",
+      "metric": "entropy",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.9219223484848484,
+      "environment": "lunar_lander",
+      "metric": "joint_entropy",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.983096590909091,
+      "environment": "lunar_lander",
+      "metric": "kl",
+      "model": "knn"
+    },
+    {
+      "accuracy": 0.8990056818181819,
+      "environment": "lunar_lander",
+      "metric": "entropy",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.9221590909090909,
+      "environment": "lunar_lander",
+      "metric": "joint_entropy",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.8990056818181819,
+      "environment": "lunar_lander",
+      "metric": "kl",
+      "model": "naive"
+    },
+    {
+      "accuracy": 0.8713857323232324,
+      "environment": "lunar_lander",
+      "metric": "entropy",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9168402777777778,
+      "environment": "lunar_lander",
+      "metric": "joint_entropy",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9799715909090909,
+      "environment": "lunar_lander",
+      "metric": "kl",
+      "model": "random_forest"
+    },
+    {
+      "accuracy": 0.9096590909090909,
+      "environment": "lunar_lander",
+      "metric": "entropy",
+      "model": "svm"
+    },
+    {
+      "accuracy": 0.9096590909090909,
+      "environment": "lunar_lander",
+      "metric": "joint_entropy",
+      "model": "svm"
+    },
+    {
+      "accuracy": 0.976373106060606,
+      "environment": "lunar_lander",
+      "metric": "kl",
+      "model": "svm"
+    }
+  ],
+  "not_run": [
+    {
+      "experiment": "PPO Lunar Lander 200000-step trajectory extraction",
+      "reason": "Original trained policy and trajectories are unavailable."
+    },
+    {
+      "experiment": "ARS Bipedal Walker 1000-iteration trajectory extraction",
+      "reason": "Original trained policy and trajectories are unavailable."
+    }
+  ],
   "published_results": {
     "bipedal_walker": {
       "knn": {

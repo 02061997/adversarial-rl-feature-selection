@@ -3,7 +3,7 @@ import argparse
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from .artifacts import environment, output_dir, save
+from .artifacts import environment, output_dir, publish_latest, save
 from .core import ENVIRONMENTS, PUBLISHED_RESULTS, evaluate
 
 
@@ -27,7 +27,21 @@ def main():
     save(out / "metrics.json", summary.to_dict(orient="records"))
     save(
         out / "statistical_tests.json",
-        {"published_results": PUBLISHED_RESULTS, "published_results_reproduced": False},
+        {
+            "published_results": PUBLISHED_RESULTS,
+            "published_results_reproduced": False,
+            "local_reference_results": summary.to_dict(orient="records"),
+            "not_run": [
+                {
+                    "experiment": "PPO Lunar Lander 200000-step trajectory extraction",
+                    "reason": "Original trained policy and trajectories are unavailable.",
+                },
+                {
+                    "experiment": "ARS Bipedal Walker 1000-iteration trajectory extraction",
+                    "reason": "Original trained policy and trajectories are unavailable.",
+                },
+            ],
+        },
     )
     save(out / "environment.json", environment())
     save(
@@ -48,6 +62,8 @@ def main():
     )
     save(out / "config.yaml", {"noise": ["gaussian", "uniform"], "classifiers": 4})
     (out / "run.log").write_text("completed\n")
+    if not args.smoke:
+        publish_latest(out)
     print(out)
 
 
